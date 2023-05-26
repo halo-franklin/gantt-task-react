@@ -39,3 +39,22 @@
 .calendarBottomHeader {
   fill:#ffffff;
 }
+
+.calendarTodayBox {
+  fill: #267A8E;
+  rx: 5;
+}
+
+.calendarTodayBoxBackround {
+  fill: #267A8E;
+}
+
+.calendarTodayBoxLine {
+  stroke: #267A8E;
+  stroke-width: 1.6;
+}
+
+.calendarTodayFont {
+  fill: #FFFFFF;
+  font-size: 10px;
+}

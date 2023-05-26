@@ -359,18 +359,60 @@ export const Calendar: React.FC<CalendarProps> = ({
   const getCalendarValuesForDayWeek = () => {
     const topValues: ReactChild[] = [];
     const bottomValues: ReactChild[] = [];
+    const todayValue: ReactChild[] = [];
     const topDefaultHeight = headerHeight;
     const dates = dateSetup.dates;
+    const today = new Date();
     for (let i = 0; i < dates.length; i++) {
       const date = dates[i];
       const bottomValue = `${date.getDate().toString()}`;
+
+      if (
+        today.getFullYear() === date.getFullYear() &&
+        today.getMonth() === date.getMonth() &&
+        today.getDate() === date.getDate()
+      ) {
+        todayValue.push(
+          <g>
+            <rect
+              x={columnWidth * i}
+              y={topDefaultHeight * 1.05}
+              width={columnWidth * .75}
+              height={topDefaultHeight * .3}
+              className={styles.calendarTodayBox}
+            />
+            <rect
+              x={columnWidth * i}
+              y={topDefaultHeight * 1.05}
+              width={columnWidth * .5}
+              height={topDefaultHeight * .3}
+              className={styles.calendarTodayBoxBackround}
+            />
+            <text
+              key="todayBoxText"
+              x={columnWidth * i}
+              y={topDefaultHeight * 1.25}
+              className={styles.calendarTodayFont}
+            >Today</text>
+            <line
+              x1={columnWidth * i}
+              x2={columnWidth * i}
+              y1={topDefaultHeight * 1.05}
+              y2={topDefaultHeight * 3}
+              className={styles.calendarTodayBoxLine}
+              key="todayBoxLine"
+            />
+          </g>
+        )
+      }
+
 
       bottomValues.push(
         <g>
           <line
             x1={columnWidth * (i + 1)}
             x2={columnWidth * (i + 1)}
-            y1={topDefaultHeight * 1}
+            y1={topDefaultHeight}
             y2={topDefaultHeight * 1.75}
             className={styles.calendarTopTick}
             key={date.getTime() + "line"}
@@ -408,11 +450,12 @@ export const Calendar: React.FC<CalendarProps> = ({
         )
       }
     }
-    return [topValues, bottomValues];
+    return [topValues, bottomValues, todayValue];
   }
 
   let topValues: ReactChild[] = [];
   let bottomValues: ReactChild[] = [];
+  let todayValue: ReactChild[] = [];
   switch (dateSetup.viewMode) {
     case ViewMode.Year:
       [topValues, bottomValues] = getCalendarValuesForYear();
@@ -430,7 +473,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       [topValues, bottomValues] = getCalendarValuesForDay();
       break;
     case ViewMode.DayWeek:
-      [topValues, bottomValues] = getCalendarValuesForDayWeek();
+      [topValues, bottomValues, todayValue] = getCalendarValuesForDayWeek();
       break;
     case ViewMode.QuarterDay:
     case ViewMode.HalfDay:
@@ -455,7 +498,7 @@ export const Calendar: React.FC<CalendarProps> = ({
         height={headerHeight * .75}
         className={styles.calendarBottomHeader}
       />
-      {bottomValues} {topValues}
+      {bottomValues} {topValues} {todayValue}
     </g>
   );
 };
