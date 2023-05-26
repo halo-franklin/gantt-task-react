@@ -6,6 +6,7 @@ import {
   getDaysInMonth,
   getLocalDayOfWeek,
   getLocaleMonth,
+  getShortLocaleMonth,
   getWeekNumberISO8601,
 } from "../../helpers/date-helper";
 import { DateSetup } from "../../types/date-setup";
@@ -355,6 +356,61 @@ export const Calendar: React.FC<CalendarProps> = ({
     return [topValues, bottomValues];
   };
 
+  const getCalendarValuesForDayWeek = () => {
+    const topValues: ReactChild[] = [];
+    const bottomValues: ReactChild[] = [];
+    const topDefaultHeight = headerHeight;
+    const dates = dateSetup.dates;
+    for (let i = 0; i < dates.length; i++) {
+      const date = dates[i];
+      const bottomValue = `${date.getDate().toString()}`;
+
+      bottomValues.push(
+        <g>
+          <line
+            x1={columnWidth * (i + 1)}
+            x2={columnWidth * (i + 1)}
+            y1={topDefaultHeight * 1}
+            y2={topDefaultHeight * 1.75}
+            className={styles.calendarTopTick}
+            key={date.getTime() + "line"}
+          />
+          <text
+            key={date.getTime()}
+            y={headerHeight * 1.5}
+            x={columnWidth * i + columnWidth * 0.5}
+            className={styles.calendarBottomText}
+          >
+            {bottomValue}
+          </text>
+        </g>
+      );
+      let currentDay = date.getDay();
+      if (currentDay === 0) {
+        const startDate = i - 6;
+        let endDate = i;
+        const startMonth = getShortLocaleMonth(dates[startDate], locale);
+        const endMonth = getShortLocaleMonth(dates[endDate], locale);
+        if (!!dates[startDate] && startMonth !== endMonth) {
+          endDate -= getDaysInMonth(dates[startDate].getMonth(), dates[startDate].getFullYear());
+        };
+        const topValue = `${startDate} ${startMonth} - ${endDate} ${endMonth}`;
+        topValues.push(
+          <TopPartOfCalendar
+            key={topValue + date.getFullYear()}
+            value={topValue}
+            x1Line={columnWidth * (i + 1)}
+            y1Line={0}
+            y2Line={topDefaultHeight}
+            xText={columnWidth * (i + 1) - (7 * columnWidth * 0.5)}
+            yText={topDefaultHeight * .6}
+          />
+        )
+      }
+    }
+    return [topValues, bottomValues];
+  }
+
   let topValues: ReactChild[] = [];
   let bottomValues: ReactChild[] = [];
   switch (dateSetup.viewMode) {
@@ -373,6 +429,9 @@ export const Calendar: React.FC<CalendarProps> = ({
     case ViewMode.Day:
       [topValues, bottomValues] = getCalendarValuesForDay();
       break;
+    case ViewMode.DayWeek:
+      [topValues, bottomValues] = getCalendarValuesForDayWeek();
+      break;
     case ViewMode.QuarterDay:
     case ViewMode.HalfDay:
       [topValues, bottomValues] = getCalendarValuesForPartOfDay();
@@ -387,7 +446,14 @@ export const Calendar: React.FC<CalendarProps> = ({
         y={0}
         width={columnWidth * dateSetup.dates.length}
         height={headerHeight}
-        className={styles.calendarHeader}
+        className={styles.calendarTopHeader}
+      />
+      <rect
+        x={0}
+        y={headerHeight}
+        width={columnWidth * dateSetup.dates.length}
+        height={headerHeight * .75}
+        className={styles.calendarBottomHeader}
       />
       {bottomValues} {topValues}
     </g>

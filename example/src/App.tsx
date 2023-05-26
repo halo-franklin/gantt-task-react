@@ -8,7 +8,7 @@ import "gantt-task-react/dist/index.css";
 const App = () => {
   const [view, setView] = React.useState<ViewMode>(ViewMode.Day);
   const [tasks, setTasks] = React.useState<Task[]>(initTasks());
-  const [isChecked, setIsChecked] = React.useState(true);
+  const [isChecked, setIsChecked] = React.useState(false);
   let columnWidth = 65;
   if (view === ViewMode.Year) {
     columnWidth = 350;
@@ -16,6 +16,8 @@ const App = () => {
     columnWidth = 300;
   } else if (view === ViewMode.Week) {
     columnWidth = 250;
+  } else if (view === ViewMode.DayWeek) {
+    columnWidth = 45;
   }
 
   const handleTaskChange = (task: Task) => {
@@ -87,6 +89,7 @@ const App = () => {
         onExpanderClick={handleExpanderClick}
         listCellWidth={isChecked ? "155px" : ""}
         columnWidth={columnWidth}
+        rowHeight={40}
       />
       <h3>Gantt With Limited Height</h3>
       <Gantt

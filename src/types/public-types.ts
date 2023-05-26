@@ -8,6 +8,7 @@ export enum ViewMode {
   Month = "Month",
   QuarterYear = "QuarterYear",
   Year = "Year",
+  DayWeek = "DayWeek"
 }
 export type TaskType = "task" | "milestone" | "project";
 export interface Task {
