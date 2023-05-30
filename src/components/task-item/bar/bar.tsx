@@ -10,6 +10,7 @@ export const Bar: React.FC<TaskItemProps> = ({
   task,
   isProgressChangeable,
   isDateChangeable,
+  disableRangeChange,
   rtl,
   onEventStart,
   isSelected,
@@ -37,7 +38,7 @@ export const Bar: React.FC<TaskItemProps> = ({
         }}
       />
       <g className="handleGroup">
-        {isDateChangeable && (
+        {isDateChangeable && !disableRangeChange && (
           <g>
             {/* left */}
             <BarDateHandle

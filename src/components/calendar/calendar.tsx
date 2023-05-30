@@ -390,7 +390,7 @@ export const Calendar: React.FC<CalendarProps> = ({
             />
             <text
               key="todayBoxText"
-              x={columnWidth * i + (columnWidth * .125)}
+              x={(columnWidth * i) + 2}
               y={topDefaultHeight * 1.25}
               className={styles.calendarTodayFont}
             >Today</text>

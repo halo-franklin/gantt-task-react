@@ -19,6 +19,7 @@ export type TaskGanttContentProps = {
   rowHeight: number;
   columnWidth: number;
   timeStep: number;
+  disableRangeChange: boolean;
   svg?: React.RefObject<SVGSVGElement>;
   svgWidth: number;
   taskHeight: number;
@@ -40,6 +41,7 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
   rowHeight,
   columnWidth,
   timeStep,
+  disableRangeChange,
   svg,
   taskHeight,
   arrowColor,
@@ -287,6 +289,7 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
               arrowIndent={arrowIndent}
               taskHeight={taskHeight}
               isProgressChangeable={!!onProgressChange && !task.isDisabled}
+              disableRangeChange={disableRangeChange}
               isDateChangeable={!!onDateChange && !task.isDisabled}
               isDelete={!task.isDisabled}
               onEventStart={handleBarEventStart}

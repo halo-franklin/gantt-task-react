@@ -12,6 +12,7 @@ export type TaskItemProps = {
   arrowIndent: number;
   taskHeight: number;
   isProgressChangeable: boolean;
+  disableRangeChange: boolean;
   isDateChangeable: boolean;
   isDelete: boolean;
   isSelected: boolean;

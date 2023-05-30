@@ -49,6 +49,8 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   rtl = false,
   handleWidth = 8,
   timeStep = 300000,
+  disableRangeChange = false,
+  disableTooltip = false,
   arrowColor = "grey",
   fontFamily = "Arial, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue",
   fontSize = "14px",
@@ -416,6 +418,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     columnWidth,
     arrowColor,
     timeStep,
+    disableRangeChange,
     fontFamily,
     fontSize,
     arrowIndent,
@@ -466,7 +469,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
           scrollY={scrollY}
           scrollX={scrollX}
         />
-        {ganttEvent.changedTask && (
+        {ganttEvent.changedTask && !disableTooltip && (
           <Tooltip
             arrowIndent={arrowIndent}
             rowHeight={rowHeight}

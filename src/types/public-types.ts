@@ -40,6 +40,14 @@ export interface EventOption {
    */
   timeStep?: number;
   /**
+   * Disallow changing the range
+   */
+  disableRangeChange?: boolean;
+  /**
+   * Disable tooltip
+   */
+  disableTooltip?: boolean;
+  /**
    * Invokes on bar select on unselect.
    */
   onSelect?: (task: Task, isSelected: boolean) => void;
