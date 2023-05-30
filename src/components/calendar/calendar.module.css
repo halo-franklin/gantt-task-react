@@ -9,8 +9,12 @@
   pointer-events: none;
 }
 
-.calendarTopTick {
+.calendarBottomTick {
   stroke: #e6e4e4;
+}
+
+.calendarTopTick {
+  stroke: #81c0c1;
 }
 
 .calendarTopText {

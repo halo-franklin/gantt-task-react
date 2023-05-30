@@ -114,15 +114,7 @@ export const ganttDateRange = (
       newEndDate = addToDate(newEndDate, 1.5, "month");
       break;
     case ViewMode.Day:
-      newStartDate = startOfDate(newStartDate, "day");
-      newStartDate = addToDate(newStartDate, -1 * preStepsCount, "day");
-      newEndDate = startOfDate(newEndDate, "day");
-      newEndDate = addToDate(newEndDate, 19, "day");
-      break;
     case ViewMode.DayWeek:
-      let currentDay = newStartDate.getDay();
-      const diff = newStartDate.getDate() - currentDay + (currentDay === 0 ? -6 : 1);
-      newStartDate = new Date(newStartDate.setDate(diff));
       newStartDate = startOfDate(newStartDate, "day");
       newStartDate = addToDate(newStartDate, -1 * preStepsCount, "day");
       newEndDate = startOfDate(newEndDate, "day");

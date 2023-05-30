@@ -365,8 +365,8 @@ export const Calendar: React.FC<CalendarProps> = ({
     const today = new Date();
     for (let i = 0; i < dates.length; i++) {
       const date = dates[i];
-      const bottomValue = `${date.getDate().toString()}`;
 
+      // TODAY MARKER AND PARTIAL LINE (MOST IS IN GRID-BODY.TSX)
       if (
         today.getFullYear() === date.getFullYear() &&
         today.getMonth() === date.getMonth() &&
@@ -390,7 +390,7 @@ export const Calendar: React.FC<CalendarProps> = ({
             />
             <text
               key="todayBoxText"
-              x={columnWidth * i}
+              x={columnWidth * i + (columnWidth * .125)}
               y={topDefaultHeight * 1.25}
               className={styles.calendarTodayFont}
             >Today</text>
@@ -406,7 +406,8 @@ export const Calendar: React.FC<CalendarProps> = ({
         )
       }
 
-
+      // DAY LABEL
+      const bottomValue = `${date.getDate().toString()}`;
       bottomValues.push(
         <g>
           <line
@@ -414,7 +415,7 @@ export const Calendar: React.FC<CalendarProps> = ({
             x2={columnWidth * (i + 1)}
             y1={topDefaultHeight}
             y2={topDefaultHeight * 1.75}
-            className={styles.calendarTopTick}
+            className={styles.calendarBottomTick}
             key={date.getTime() + "line"}
           />
           <text
@@ -427,24 +428,28 @@ export const Calendar: React.FC<CalendarProps> = ({
           </text>
         </g>
       );
-      let currentDay = date.getDay();
-      if (currentDay === 0) {
-        const startDate = i - 6;
-        let endDate = i;
-        const startMonth = getShortLocaleMonth(dates[startDate], locale);
-        const endMonth = getShortLocaleMonth(dates[endDate], locale);
-        if (!!dates[startDate] && startMonth !== endMonth) {
-          endDate -= getDaysInMonth(dates[startDate].getMonth(), dates[startDate].getFullYear());
-        };
+
+      // WEEK LABEL
+      if (date.getDay() === 0) {
+        const ending = date;
+        const starting = new Date((new Date(date)).setDate(date.getDate() - 6));
+        const startDate = starting.getDate();
+        const endDate = ending.getDate();
+        const startMonth = getShortLocaleMonth(starting, locale);
+        const endMonth = getShortLocaleMonth(ending, locale);
         const topValue = `${startDate} ${startMonth} - ${endDate} ${endMonth}`;
+        // original = columnWidth * (i + 1) - (7 * columnWidth * 0.5)
+        const textXPosition = date.getTime() > new Date().getTime() ?
+          columnWidth * (i + 1) - (11.5 * columnWidth * 0.5) :
+          columnWidth * (i + 1) - (2.5 * columnWidth * 0.5) ;
         topValues.push(
           <TopPartOfCalendar
             key={topValue + date.getFullYear()}
             value={topValue}
             x1Line={columnWidth * (i + 1)}
-            y1Line={0}
-            y2Line={topDefaultHeight}
-            xText={columnWidth * (i + 1) - (7 * columnWidth * 0.5)}
+            y1Line={0 + (topDefaultHeight * .25)}
+            y2Line={topDefaultHeight * .75}
+            xText={textXPosition}
             yText={topDefaultHeight * .6}
           />
         )

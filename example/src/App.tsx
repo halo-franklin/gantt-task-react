@@ -69,6 +69,19 @@ const App = () => {
     console.log("On expander click Id:" + task.id);
   };
 
+  const currentDate = new Date();
+
+  const myTasks: Task[] = [
+    {
+      id: '1',
+      type: 'task',
+      name: 'American History',
+      start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 26),
+      end: new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 10),
+      progress: 100,
+    }
+  ]
+
   return (
     <div className="Wrapper">
       <ViewSwitcher
@@ -105,6 +118,11 @@ const App = () => {
         listCellWidth={isChecked ? "155px" : ""}
         ganttHeight={300}
         columnWidth={columnWidth}
+      />
+      <Gantt
+        tasks={myTasks}
+        viewMode={ViewMode.DayWeek}
+        listCellWidth={""}
       />
     </div>
   );
